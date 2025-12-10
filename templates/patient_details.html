@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Heart Disease Risk Predictor | Patient Details</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		/* CSS Variables for Consistent Theme - Will reuse for other pages */
+		:root {
+			--primary-color: #1a73e8;
+			--primary-dark: #0d47a1;
+			--secondary-color: #e8f0fe;
+			--accent-color: #34a853;
+			--danger-color: #ea4335;
+			--warning-color: #fbbc04;
+			--text-dark: #202124;
+			--text-light: #5f6368;
+			--bg-color: #f8f9fa;
+			--card-bg: #ffffff;
+			--border-radius: 12px;
+			--shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+			--shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+			--transition: all 0.3s ease;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+		}
+
+		body {
+			background-color: var(--bg-color);
+			color: var(--text-dark);
+			line-height: 1.6;
+			padding: 20px;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.container {
+			max-width: 800px;
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		/* Header Section */
+		.header {
+			text-align: center;
+			margin-bottom: 40px;
+			padding: 20px;
+		}
+
+		.logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 16px;
+			color: var(--primary-color);
+		}
+
+		.logo i {
+			font-size: 2.8rem;
+			margin-right: 12px;
+		}
+
+		.logo-text {
+			font-size: 2.2rem;
+			font-weight: 700;
+		}
+
+		.tagline {
+			color: var(--text-light);
+			font-size: 1.1rem;
+			max-width: 600px;
+			margin: 0 auto 10px;
+		}
+
+		.alert-box {
+			background-color: var(--secondary-color);
+			border-left: 4px solid var(--primary-color);
+			padding: 14px 20px;
+			border-radius: 8px;
+			margin-top: 20px;
+			display: flex;
+			align-items: center;
+		}
+
+		.alert-box i {
+			color: var(--primary-color);
+			margin-right: 12px;
+			font-size: 1.2rem;
+		}
+
+		/* Form Container */
+		.form-container {
+			background-color: var(--card-bg);
+			border-radius: var(--border-radius);
+			box-shadow: var(--shadow);
+			padding: 40px;
+			transition: var(--transition);
+		}
+
+		.form-container:hover {
+			box-shadow: var(--shadow-hover);
+		}
+
+		.form-title {
+			font-size: 1.8rem;
+			margin-bottom: 10px;
+			color: var(--text-dark);
+			display: flex;
+			align-items: center;
+		}
+
+		.form-title i {
+			margin-right: 12px;
+			color: var(--primary-color);
+		}
+
+		.form-subtitle {
+			color: var(--text-light);
+			margin-bottom: 30px;
+			font-size: 1rem;
+		}
+
+		/* Form Styling */
+		.form-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+			gap: 24px;
+		}
+
+		.form-group {
+			margin-bottom: 8px;
+		}
+
+		.form-group label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: 600;
+			color: var(--text-dark);
+			font-size: 0.95rem;
+		}
+
+		.input-with-icon {
+			position: relative;
+		}
+
+		.input-with-icon i {
+			position: absolute;
+			left: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--text-light);
+			font-size: 1.1rem;
+		}
+
+		input, select {
+			width: 100%;
+			padding: 14px 16px 14px 48px;
+			border: 1.5px solid #dadce0;
+			border-radius: 8px;
+			font-size: 1rem;
+			transition: var(--transition);
+			background-color: white;
+		}
+
+		input:focus, select:focus {
+			outline: none;
+			border-color: var(--primary-color);
+			box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+		}
+
+		/* Info Boxes for Medical Terms */
+		.info-box {
+			background-color: #f8f9fa;
+			border-radius: 8px;
+			padding: 16px;
+			margin-top: 8px;
+			font-size: 0.9rem;
+			color: var(--text-light);
+			border-left: 3px solid var(--primary-color);
+		}
+
+		.info-box strong {
+			color: var(--primary-dark);
+		}
+
+		/* Button Styling */
+		.button-container {
+			text-align: center;
+			margin-top: 40px;
+		}
+
+		.submit-btn {
+			background-color: var(--primary-color);
+			color: white;
+			border: none;
+			padding: 16px 40px;
+			font-size: 1.1rem;
+			font-weight: 600;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: var(--transition);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+		}
+
+		.submit-btn i {
+			margin-right: 12px;
+			font-size: 1.2rem;
+		}
+
+		.submit-btn:hover {
+			background-color: var(--primary-dark);
+			transform: translateY(-2px);
+			box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
+		}
+
+		.submit-btn:active {
+			transform: translateY(0);
+		}
+
+		/* Footer */
+		.footer {
+			text-align: center;
+			margin-top: 40px;
+			color: var(--text-light);
+			font-size: 0.9rem;
+			padding: 20px;
+		}
+
+		/* Responsive Design */
+		@media (max-width: 768px) {
+			.form-container {
+				padding: 30px 20px;
+			}
+
+			.form-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.header {
+				padding: 10px;
+			}
+
+			.logo-text {
+				font-size: 1.8rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			body {
+				padding: 10px;
+			}
+
+			.form-title {
+				font-size: 1.5rem;
+			}
+
+			.submit-btn {
+				width: 100%;
+				padding: 18px 20px;
+			}
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<header class="header">
+		<div class="logo">
+			<i class="fas fa-heartbeat"></i>
+			<span class="logo-text">HeartGuard AI</span>
+		</div>
+		<p class="tagline">Advanced predictive analytics for cardiovascular health assessment</p>
+
+		<div class="alert-box">
+			<i class="fas fa-info-circle"></i>
+			<div>Please fill out this form with accurate and true details for a reliable risk assessment.</div>
+		</div>
+	</header>
+
+	<main>
+		<div class="form-container">
+			<h2 class="form-title"><i class="fas fa-user-circle"></i> Patient Health Profile</h2>
+			<p class="form-subtitle">Complete all fields to receive your personalized heart disease risk assessment.</p>
+
+			<form action="http://127.0.0.1:5000/getresults" method="POST" id="patientForm">
+				<div class="form-grid">
+					<!-- Personal Information -->
+					<div class="form-group">
+						<label for="name">Full Name</label>
+						<div class="input-with-icon">
+							<i class="fas fa-user"></i>
+							<input type="text" id="name" name="name" placeholder="Enter your full name" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="gender">Gender</label>
+						<div class="input-with-icon">
+							<i class="fas fa-venus-mars"></i>
+							<select id="gender" name="gender" required>
+								<option value="" disabled selected>Select your gender</option>
+								<option value="0">Male</option>
+								<option value="1">Female</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="age">Age</label>
+						<div class="input-with-icon">
+							<i class="fas fa-birthday-cake"></i>
+							<input type="number" id="age" name="age" min="1" max="120" placeholder="Enter your age" required>
+						</div>
+					</div>
+
+					<!-- Health Metrics -->
+					<div class="form-group">
+						<label for="tc">Total Cholesterol (mg/dL)</label>
+						<div class="input-with-icon">
+							<i class="fas fa-chart-line"></i>
+							<input type="number" id="tc" name="tc" min="100" max="400" placeholder="e.g., 200" required>
+						</div>
+						<div class="info-box">
+							<strong>Normal range:</strong> Below 200 mg/dL. <strong>Borderline high:</strong> 200-239 mg/dL. <strong>High:</strong> 240+ mg/dL.
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="hdl">HDL Cholesterol (mg/dL)</label>
+						<div class="input-with-icon">
+							<i class="fas fa-heart"></i>
+							<input type="number" id="hdl" name="hdl" min="20" max="100" placeholder="e.g., 60" required>
+						</div>
+						<div class="info-box">
+							<strong>Good HDL level:</strong> 60+ mg/dL. <strong>At risk:</strong> Below 40 mg/dL for men, below 50 mg/dL for women.
+						</div>
+					</div>
+
+					<!-- Lifestyle Factors -->
+					<div class="form-group">
+						<label for="smoke">Smoking Status</label>
+						<div class="input-with-icon">
+							<i class="fas fa-smoking"></i>
+							<select id="smoke" name="smoke" required>
+								<option value="" disabled selected>Do you currently smoke?</option>
+								<option value="1">Yes, I smoke</option>
+								<option value="0">No, I don't smoke</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="bpm">Blood Pressure Medication</label>
+						<div class="input-with-icon">
+							<i class="fas fa-prescription-bottle-alt"></i>
+							<select id="bpm" name="bpm" required>
+								<option value="" disabled selected>Are you on BP medication?</option>
+								<option value="1">Yes, taking medication</option>
+								<option value="0">No, not taking medication</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="diab">Diabetes Status</label>
+						<div class="input-with-icon">
+							<i class="fas fa-file-medical"></i>
+							<select id="diab" name="diab" required>
+								<option value="" disabled selected>Do you have diabetes?</option>
+								<option value="1">Yes</option>
+								<option value="0">No</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="button-container">
+					<button type="submit" class="submit-btn">
+						<i class="fas fa-stethoscope"></i> Analyze Heart Disease Risk
+					</button>
+				</div>
+			</form>
+		</div>
+	</main>
+
+	<footer class="footer">
+		<p><i class="fas fa-shield-alt"></i> Your data is securely processed and never stored. This tool provides risk assessment, not medical diagnosis.</p>
+		<p>© 2025 HeartGuard AI. For educational and informational purposes only.</p>
+	</footer>
+</div>
+
+<script>
+
+	document.getElementById('patientForm').addEventListener('submit', function(event) {
+		let isValid = true;
+		const inputs = this.querySelectorAll('input[required], select[required]');
+
+		inputs.forEach(input => {
+			if (!input.value.trim()) {
+				isValid = false;
+				input.style.borderColor = 'var(--danger-color)';
+			} else {
+				input.style.borderColor = '';
+			}
+		});
+
+
+		const age = document.getElementById('age');
+		if (age.value && (age.value < 1 || age.value > 120)) {
+			isValid = false;
+			age.style.borderColor = 'var(--danger-color)';
+			alert('Please enter a valid age between 1 and 120.');
+		}
+
+		const tc = document.getElementById('tc');
+		if (tc.value && (tc.value < 100 || tc.value > 400)) {
+			isValid = false;
+			tc.style.borderColor = 'var(--danger-color)';
+			alert('Please enter a valid Total Cholesterol level between 100 and 400 mg/dL.');
+		}
+
+		const hdl = document.getElementById('hdl');
+		if (hdl.value && (hdl.value < 20 || hdl.value > 100)) {
+			isValid = false;
+			hdl.style.borderColor = 'var(--danger-color)';
+			alert('Please enter a valid HDL Cholesterol level between 20 and 100 mg/dL.');
+		}
+
+		if (!isValid) {
+			event.preventDefault();
+			alert('Please fill all required fields with valid data.');
+		} else {
+
+			const submitBtn = document.querySelector('.submit-btn');
+			const originalText = submitBtn.innerHTML;
+			submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+			submitBtn.disabled = true;
+
+
+			setTimeout(() => {
+				submitBtn.innerHTML = originalText;
+				submitBtn.disabled = false;
+			}, 3000);
+		}
+	});
+
+
+	const inputs = document.querySelectorAll('input, select');
+	inputs.forEach(input => {
+		input.addEventListener('focus', function() {
+			this.parentElement.style.transform = 'translateY(-2px)';
+		});
+
+		input.addEventListener('blur', function() {
+			this.parentElement.style.transform = 'translateY(0)';
+		});
+	});
+</script>
+</body>
+</html>
