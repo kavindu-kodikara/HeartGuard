@@ -1,6 +1,6 @@
 # Heart Disease Prediction Web App
 
-**Heart Disease Prediction Web App** is a small end-to-end project that demonstrates a machine learning pipeline (training → model export) and a simple Flask web front-end for predicting 10-year heart disease risk. It was built as a portfolio piece to show to recruiters and hiring managers.
+**Heart Disease Prediction Web App** is a small end-to-end project that demonstrates a machine learning pipeline (training → model export) and a simple Flask web front-end for predicting 10-year heart disease risk.
 
 ---
 
